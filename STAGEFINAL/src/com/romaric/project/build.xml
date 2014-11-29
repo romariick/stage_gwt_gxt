@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="ImageViewer" default="all" basedir="E:\Romaric\STAGEFINAL">
+	<description>
+		This is build file for GWT module 'com.romaric.project.STAGEFINAL' deployment.
+		GWT Designer generates it each time when you initiate deployment.
+		
+		You can use this file later for manual deployment, but keep in mind, that
+		classpath is hardcoded in it, so after changes in classpath you should
+		regenerate build file.
+	</description>
+
+	<property name="gwt.home" value="E:/Romaric/ECLIPSE/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0" />
+	<property name="gwt.module.id" value="com.romaric.project.STAGEFINAL" />
+	<property name="war.name" value="STAGEFINAL.war" />
+
+	<target name="jars" description="Package up the module project and required projects as jars">
+		<mkdir dir="war/WEB-INF/lib" />
+		<!--=== STAGEFINAL ===-->
+		<jar destfile='war/WEB-INF/lib/STAGEFINAL.jar'>
+			<fileset dir="E:/Romaric/STAGEFINAL/src">
+				<include name="**"/>
+			</fileset>
+			<fileset dir="E:/Romaric/STAGEFINAL/test">
+				<include name="**"/>
+			</fileset>
+			<fileset dir="E:/Romaric/STAGEFINAL/war/WEB-INF/classes">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="E:/Romaric/STAGEFINAL/test-classes">
+				<include name="**/*.class"/>
+			</fileset>
+		</jar>
+		<copy todir='war/WEB-INF/lib'>
+			<fileset file="E:\Romaric\STAGEFINAL\test-classes"/>
+			<fileset file="E:\Romaric\STAGEFINAL\war\WEB-INF\classes"/>
+			<fileset file="E:\Romaric\ECLIPSE\plugins\com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225\gwt-2.2.0\gwt-dev.jar"/>
+			<fileset file="E:\Romaric\ECLIPSE\driver\commons-fileupload-1.2.2.jar"/>
+			<fileset file="E:\Romaric\ECLIPSE\driver\commons-io-2.4.jar"/>
+			<fileset file="E:\Romaric\ECLIPSE\driver\commons-io-2.4-sources.jar"/>
+			<fileset file="E:\Romaric\ECLIPSE\driver\gxt-2.2.5-gwt22.jar"/>
+			<fileset file="E:\Romaric\ECLIPSE\driver\iText-2.1.7.jar"/>
+			<fileset file="E:\Romaric\ECLIPSE\driver\jxl-2.6.jar"/>
+			<fileset file="E:\Romaric\ECLIPSE\driver\postgresql-8.3-605.jdbc4.jar"/>
+		</copy>		
+	</target>
+
+	<target name="gwt-compile" description="Compile to JavaScript">
+		<java classname="com.google.gwt.dev.Compiler" fork="yes" failonerror="true" maxmemory="256m">
+			<classpath>
+				<pathelement location="E:/Romaric/STAGEFINAL/src" />
+				<pathelement location="E:/Romaric/STAGEFINAL/test" />
+				<pathelement location="E:/Romaric/STAGEFINAL/test-classes" />
+				<pathelement location="E:/Romaric/STAGEFINAL/war/WEB-INF/classes" />
+				<pathelement location="E:/Romaric/ECLIPSE/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0/gwt-user.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0/gwt-dev.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/driver/commons-fileupload-1.2.2.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/driver/commons-io-2.4.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/driver/commons-io-2.4-sources.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/driver/gxt-2.2.5-gwt22.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/driver/iText-2.1.7.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/driver/jxl-2.6.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/driver/postgresql-8.3-605.jdbc4.jar" />
+				<pathelement location="E:/Romaric/ECLIPSE/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0/gwt-dev.jar" />
+			</classpath>
+			<arg value="-style"/>
+			<arg value="OBFUSCATED"/>
+			<arg value="${gwt.module.id}" />
+		</java>
+	</target>
+
+	<target name="war" depends="gwt-compile, jars">
+		<delete file="${war.name}" />
+		<jar destfile="${war.name}" basedir="war" duplicate="preserve" />
+	</target>
+	
+	<target name="deploy" depends="war">
+		<move file="${war.name}" todir="C:/Tomcat 6.0/webapps" />
+	</target>
+
+	<target name="all" depends="deploy" />
+
+</project>
